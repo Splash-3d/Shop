@@ -347,3 +347,6 @@ setInterval(() => {
         }
     }
 }, 60000);
+
+// Export for Vercel
+module.exports = app;
