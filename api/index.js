@@ -132,6 +132,7 @@ app.post('/api/admin/login', (req, res) => {
     }
 });
 
+// API Routes - All admin routes require authentication
 app.get('/api/admin/verify', (req, res) => {
     const token = getTokenFromHeader(req);
     if (!token) {
