@@ -1,3 +1,5 @@
+// Clean app.js file - 2026-01-02
+
 // Global variables
 let products = [];
 let cart = [];
