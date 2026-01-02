@@ -211,7 +211,7 @@ function showToast(message, type = 'info') {
     toast.style.cssText = 'top: 20px; right: 20px; z-index: 1050; min-width: 300px;';
     toast.innerHTML = `
         ${message}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
     `;
     
     toastContainer.appendChild(toast);
