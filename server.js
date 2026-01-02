@@ -327,8 +327,29 @@ app.post('/api/admin/logout', (req, res) => {
     res.json({ success: true });
 });
 
+// Serve static files
+app.use(express.static('.'));
+
 // Serve the main application
 app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Handle all other routes - serve static files or fallback to index.html
+app.get('*', (req, res) => {
+    const filePath = path.join(__dirname, req.path);
+    
+    // Security check - prevent directory traversal
+    if (filePath.includes('..')) {
+        return res.status(403).json({ error: 'Forbidden' });
+    }
+    
+    // Check if file exists and is a file
+    if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+        return res.sendFile(filePath);
+    }
+    
+    // Fallback to index.html for SPA routes
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
