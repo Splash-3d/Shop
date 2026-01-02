@@ -1,0 +1,790 @@
+/* ============================================================
+   1. VARIABLES (ORIGINAL + INTACTAS)
+   ============================================================ */
+
+:root {
+    --primary-black: #000000;
+    --primary-white: #ffffff;
+    --accent-orange: #ff6b35;
+    --accent-yellow: #ffc107;
+    --dark-gray: #343a40;
+    --light-gray: #f8f9fa;
+    --medium-gray: #6c757d;
+    --border-gray: #dee2e6;
+    --success-green: #28a745;
+    --danger-red: #dc3545;
+    --warning-yellow: #ffc107;
+    --info-blue: #17a2b8;
+
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-secondary: 'Roboto Mono', monospace;
+
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.25rem; /* compactado */
+    --spacing-xl: 1.75rem; /* compactado */
+    --spacing-xxl: 2.25rem; /* compactado */
+
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-xxl: 1.5rem;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 3px 5px rgba(0, 0, 0, 0.1); /* compactado */
+    --shadow-lg: 0 8px 18px rgba(0, 0, 0, 0.15); /* compactado */
+    --shadow-xl: 0 16px 32px rgba(0, 0, 0, 0.18); /* compactado */
+
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.25s ease; /* compactado */
+    --transition-slow: 0.45s ease; /* compactado */
+}
+
+/* ============================================================
+   2. RESET + GLOBAL
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: var(--font-primary);
+    font-weight: var(--font-weight-normal);
+    line-height: 1.55; /* compactado */
+    color: var(--primary-black);
+    background-color: var(--primary-white);
+    margin: 0;
+    padding: 0;
+}
+
+/* ============================================================
+   3. TIPOGRAFÍA (compactada)
+   ============================================================ */
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-bold);
+    line-height: 1.15; /* compactado */
+    margin-bottom: var(--spacing-md);
+}
+
+h1 { font-size: 2.4rem; } /* compactado */
+h2 { font-size: 2rem; }   /* compactado */
+h3 { font-size: 1.6rem; } /* compactado */
+h4 { font-size: 1.3rem; }
+h5 { font-size: 1.1rem; }
+h6 { font-size: 1rem; }
+
+p {
+    margin-bottom: var(--spacing-md);
+    color: var(--dark-gray);
+}
+
+/* ============================================================
+   4. UTILIDADES BASE
+   ============================================================ */
+
+.text-uppercase { text-transform: uppercase; letter-spacing: 0.05em; }
+.font-weight-bold { font-weight: var(--font-weight-bold); }
+.font-weight-semibold { font-weight: var(--font-weight-semibold); }
+.text-primary { color: var(--primary-black) !important; }
+.text-accent { color: var(--accent-orange) !important; }
+.bg-primary { background-color: var(--primary-black) !important; }
+.bg-light { background-color: var(--light-gray) !important; }
+.shadow-lg { box-shadow: var(--shadow-lg) !important; }
+.transition-all { transition: all var(--transition-normal) !important; }
+
+/* ============================================================
+   5. BOTONES (compactados)
+   ============================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-weight: var(--font-weight-semibold);
+    font-size: 0.85rem;
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left var(--transition-slow);
+}
+
+.btn:hover:before { left: 100%; }
+
+.btn-primary {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    border-color: var(--primary-black);
+}
+.btn-primary:hover {
+    background: var(--accent-orange);
+    border-color: var(--accent-orange);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--primary-black);
+    border-color: var(--primary-black);
+}
+.btn-secondary:hover {
+    background: var(--primary-black);
+    color: var(--primary-white);
+}
+
+.btn-solid {
+    background: var(--primary-black);
+    color: var(--primary-white);
+}
+.btn-solid:hover {
+    background: var(--accent-orange);
+    transform: translateY(-2px);
+}
+
+.btn-lg {
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1rem;
+}
+.btn-sm {
+    padding: var(--spacing-xs) var(--spacing-md);
+    font-size: 0.75rem;
+}
+
+/* ============================================================
+   6. SCROLLBAR
+   ============================================================ */
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--light-gray); }
+::-webkit-scrollbar-thumb {
+    background: var(--dark-gray);
+    border-radius: var(--radius-sm);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent-orange); }
+
+/* ============================================================
+   7. ANIMACIONES BASE
+   ============================================================ */
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up { animation: fadeInUp 0.55s ease-out; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading {
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(0,0,0,0.1);
+    border-radius: 50%;
+    border-top-color: var(--accent-orange);
+    animation: spin 1s linear infinite;
+}
+/* ============================================================
+   8. NAVBAR (compactado nivel 2)
+   ============================================================ */
+
+.navbar {
+    background: var(--primary-white);
+    box-shadow: var(--shadow-sm);
+    padding: var(--spacing-sm) 0 !important;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-brand {
+    font-weight: var(--font-weight-black);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    color: var(--primary-black) !important;
+}
+
+.navbar-brand:hover { color: var(--accent-orange) !important; }
+
+.navbar-nav .nav-link {
+    font-weight: var(--font-weight-medium);
+    color: var(--dark-gray) !important;
+    padding: var(--spacing-xs) var(--spacing-md) !important;
+    border-radius: var(--radius-md);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    transition: all var(--transition-fast);
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-black) !important;
+    background: var(--light-gray);
+}
+
+/* ============================================================
+   9. HERO SECTION (compactado nivel 2)
+   ============================================================ */
+
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-black), #1a1a1a);
+    min-height: 45vh !important;
+    padding: var(--spacing-xl) var(--spacing-md) !important;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.25;
+}
+
+.hero-section .container { position: relative; z-index: 1; }
+
+.hero-section h1 {
+    font-size: 2.4rem !important;
+    margin-bottom: var(--spacing-md) !important;
+    font-weight: var(--font-weight-black);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-section .lead {
+    font-size: 1.1rem !important;
+    margin-bottom: var(--spacing-lg) !important;
+    max-width: 600px;
+    color: rgba(255,255,255,0.9);
+}
+
+/* ============================================================
+   10. STATS SECTION (compactado nivel 2)
+   ============================================================ */
+
+.stats-section {
+    background: var(--light-gray);
+    padding: var(--spacing-xl) 0 !important;
+}
+
+.stat-item {
+    text-align: center;
+    padding: var(--spacing-lg) !important;
+    transition: transform var(--transition-normal);
+}
+
+.stat-item:hover { transform: translateY(-4px); }
+
+.stat-item i {
+    font-size: 2.2rem !important;
+    color: var(--accent-orange);
+    margin-bottom: var(--spacing-sm) !important;
+}
+
+.stat-item h3 {
+    font-size: 1.8rem !important;
+    margin-bottom: var(--spacing-xs) !important;
+    font-weight: var(--font-weight-black);
+}
+
+.stat-item p {
+    font-weight: var(--font-weight-medium);
+    color: var(--medium-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+}
+
+/* ============================================================
+   11. PRODUCTS SECTION (compactado nivel 2)
+   ============================================================ */
+
+.products-section {
+    padding: var(--spacing-xl) 0 !important;
+}
+
+.section-title {
+    text-align: center;
+    font-weight: var(--font-weight-black);
+    font-size: 2rem !important;
+    margin-bottom: var(--spacing-xl) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+}
+
+.section-title:after {
+    content: '';
+    width: 70px;
+    height: 4px;
+    background: var(--accent-orange);
+    border-radius: var(--radius-sm);
+    display: block;
+    margin: var(--spacing-sm) auto 0;
+}
+
+.product-card {
+    background: var(--primary-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.product-card .card-img-top {
+    height: 220px !important;
+    object-fit: cover;
+    transition: transform var(--transition-normal);
+}
+
+.product-card:hover .card-img-top { transform: scale(1.05); }
+
+.product-card .card-body {
+    padding: var(--spacing-md) !important;
+}
+
+.product-title {
+    font-size: 1.1rem !important;
+    margin-bottom: var(--spacing-xs) !important;
+    font-weight: var(--font-weight-bold);
+}
+
+.product-price {
+    font-size: 1.3rem !important;
+    margin-bottom: var(--spacing-sm) !important;
+    font-weight: var(--font-weight-black);
+    color: var(--accent-orange);
+}
+
+.product-description {
+    color: var(--medium-gray);
+    font-size: 0.85rem;
+    margin-bottom: var(--spacing-md) !important;
+}
+
+/* ============================================================
+   12. CART (sin cambios funcionales, compactado)
+   ============================================================ */
+
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--accent-orange);
+    color: var(--primary-white);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: var(--font-weight-bold);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: var(--spacing-md);
+    border-bottom: 1px solid var(--border-gray);
+}
+
+.cart-item img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-right: var(--spacing-md);
+}
+
+.cart-item-title {
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--spacing-xs);
+}
+
+.cart-item-price {
+    color: var(--accent-orange);
+    font-weight: var(--font-weight-bold);
+}
+
+/* ============================================================
+   13. FOOTER (compactado nivel 2)
+   ============================================================ */
+
+footer {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: var(--spacing-xl) 0 var(--spacing-md) !important;
+}
+
+footer h5 {
+    margin-bottom: var(--spacing-sm) !important;
+    font-weight: var(--font-weight-bold);
+}
+
+footer p {
+    margin-bottom: var(--spacing-sm) !important;
+    color: rgba(255,255,255,0.85);
+}
+
+.social-links {
+    display: flex;
+    gap: var(--spacing-sm) !important;
+    margin-top: var(--spacing-sm) !important;
+}
+
+.social-links a {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-normal);
+}
+
+.social-links a:hover {
+    background: var(--accent-orange);
+    transform: translateY(-3px);
+}/* ============================================================
+   14. ADMIN LOGIN (compactado nivel 2)
+   ============================================================ */
+
+.admin-login {
+    background: linear-gradient(135deg, var(--primary-black), #2a2a2a);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    background: var(--primary-white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    padding: var(--spacing-xl); /* compactado */
+    width: 100%;
+    max-width: 380px; /* compactado */
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg); /* compactado */
+}
+
+.login-header h2 {
+    font-weight: var(--font-weight-black);
+    margin-bottom: var(--spacing-xs);
+}
+
+.form-control:focus {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 0.15rem rgba(255,107,53,0.25);
+}
+
+.btn-login {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    width: 100%;
+    transition: var(--transition-normal);
+}
+
+.btn-login:hover {
+    background: var(--accent-orange);
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   15. SIDEBAR (compactado nivel 2)
+   ============================================================ */
+
+.sidebar {
+    background: var(--primary-black);
+    min-height: 100vh;
+    width: 230px; /* compactado */
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transition: transform var(--transition-normal);
+}
+
+.sidebar-header {
+    padding: var(--spacing-lg) var(--spacing-md); /* compactado */
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-header h4 {
+    color: var(--primary-white);
+    font-weight: var(--font-weight-black);
+    margin: 0;
+}
+
+.sidebar-header small {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.8rem;
+}
+
+.sidebar-menu {
+    padding: var(--spacing-md) 0; /* compactado */
+}
+
+.sidebar-menu .nav-link {
+    color: rgba(255,255,255,0.8);
+    padding: var(--spacing-sm) var(--spacing-md); /* compactado */
+    display: flex;
+    align-items: center;
+    transition: var(--transition-fast);
+}
+
+.sidebar-menu .nav-link:hover,
+.sidebar-menu .nav-link.active {
+    background: rgba(255,255,255,0.1);
+    color: var(--primary-white);
+}
+
+.sidebar-menu .nav-link i {
+    width: 20px;
+    margin-right: var(--spacing-sm);
+}
+
+/* ============================================================
+   16. DASHBOARD (compactado nivel 2)
+   ============================================================ */
+
+.main-content {
+    margin-left: 230px; /* coincide con sidebar compactado */
+    padding: var(--spacing-lg); /* compactado */
+    min-height: 100vh;
+}
+
+.stats-card {
+    background: var(--primary-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md); /* compactado */
+    box-shadow: var(--shadow-md);
+    border-left: 4px solid var(--accent-orange);
+    transition: var(--transition-normal);
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stats-icon {
+    width: 50px; /* compactado */
+    height: 50px; /* compactado */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.3rem;
+}
+
+/* ============================================================
+   17. TABLAS ADMIN (compactado nivel 2)
+   ============================================================ */
+
+.product-table {
+    background: var(--primary-white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md); /* compactado */
+    box-shadow: var(--shadow-md);
+}
+
+.product-table th {
+    background: var(--primary-black);
+    color: var(--primary-white);
+    padding: var(--spacing-sm) var(--spacing-md); /* compactado */
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.product-table td {
+    padding: var(--spacing-sm) var(--spacing-md); /* compactado */
+    border-bottom: 1px solid var(--border-gray);
+    vertical-align: middle;
+}
+
+.product-image-thumb {
+    width: 55px; /* compactado */
+    height: 55px; /* compactado */
+    object-fit: cover;
+    border-radius: var(--radius-md);
+}
+
+/* ============================================================
+   18. BOTONES ADMIN (compactado nivel 2)
+   ============================================================ */
+
+.btn-action {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.75rem;
+    border-radius: var(--radius-sm);
+    margin: 0 var(--spacing-xs);
+}
+
+/* ============================================================
+   19. RESPONSIVE ADMIN
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: var(--spacing-md);
+    }
+
+    .mobile-toggle {
+        display: block;
+        position: fixed;
+        top: var(--spacing-sm);
+        left: var(--spacing-sm);
+        z-index: 1001;
+        background: var(--primary-black);
+        color: var(--primary-white);
+        border: none;
+        padding: var(--spacing-sm);
+        border-radius: var(--radius-sm);
+    }
+}/* ============================================================
+   20. RESPONSIVE GLOBAL (compactado nivel 2)
+   ============================================================ */
+
+@media (max-width: 768px) {
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.4rem; }
+
+    .hero-section {
+        min-height: 40vh !important;
+        padding: var(--spacing-lg) var(--spacing-sm) !important;
+    }
+
+    .hero-section h1 { font-size: 2.2rem; }
+    .hero-section .lead { font-size: 1rem; }
+
+    .product-card .card-img-top {
+        height: 180px !important;
+    }
+
+    .stat-item {
+        padding: var(--spacing-md) !important;
+    }
+
+    .stat-item i { font-size: 1.8rem !important; }
+    .stat-item h3 { font-size: 1.6rem !important; }
+}
+
+@media (max-width: 576px) {
+    .hero-section h1 { font-size: 1.9rem; }
+    .section-title { font-size: 1.6rem; }
+
+    .btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.75rem;
+    }
+}
+
+/* ============================================================
+   21. TOASTS (compactado nivel 2)
+   ============================================================ */
+
+.toast-container {
+    position: fixed;
+    top: 15px; /* compactado */
+    right: 15px; /* compactado */
+    z-index: 1050;
+}
+
+.custom-toast {
+    background: var(--primary-white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--spacing-sm) var(--spacing-md); /* compactado */
+    margin-bottom: var(--spacing-sm); /* compactado */
+    display: flex;
+    align-items: center;
+    border-left: 4px solid var(--success-green);
+    min-width: 260px; /* compactado */
+    animation: slideIn 0.25s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(80%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.toast-success { border-left-color: var(--success-green); }
+.toast-error { border-left-color: var(--danger-red); }
+.toast-warning { border-left-color: var(--warning-yellow); }
+
+.toast-icon {
+    font-size: 1.1rem; /* compactado */
+    margin-right: var(--spacing-sm);
+}
+
+.toast-success .toast-icon { color: var(--success-green); }
+.toast-error .toast-icon { color: var(--danger-red); }
+.toast-warning .toast-icon { color: var(--warning-yellow); }
+
+/* ============================================================
+   22. UTILIDADES FINALES
+   ============================================================ */
+
+.fade-in-up { animation: fadeInUp 0.55s ease-out; }
+
+.loading {
+    width: 18px; /* compactado */
+    height: 18px; /* compactado */
+    border-width: 2px; /* compactado */
+}
+
+html { scroll-behavior: smooth; }

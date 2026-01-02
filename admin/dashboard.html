@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        .dashboard-container {
+            min-height: 100vh;
+            background: #f8f9fa;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+            min-height: 100vh;
+            color: white;
+            position: fixed;
+            width: 250px;
+            left: 0;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .sidebar-menu {
+            padding: 1rem 0;
+        }
+
+        .sidebar-menu .nav-link {
+            color: white;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu .nav-link:hover,
+        .sidebar-menu .nav-link.active {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .sidebar-menu .nav-link i {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            border-left: 4px solid var(--success-green);
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stats-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-table {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .product-table th {
+            background: var(--success-green);
+            color: white;
+            border: none;
+            padding: 1rem;
+        }
+
+        .product-table td {
+            padding: 1rem;
+            vertical-align: middle;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            margin: 0 0.25rem;
+        }
+
+        .product-image-thumb {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+            color: white;
+        }
+
+        .form-control:focus {
+            border-color: var(--success-green);
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+        }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--success-green);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 40px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+
+        <!-- Mobile Toggle -->
+        <button class="mobile-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-chart-line fa-3x mb-3"></i>
+                <h4>Panel Admin</h4>
+                <small>Shop Management</small>
+            </div>
+
+            <div class="sidebar-menu">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" onclick="showSection('dashboard', this)">
+                            <i class="fas fa-tachometer-alt"></i>Dashboard
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('products', this)">
+                            <i class="fas fa-box"></i>Productos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('orders', this)">
+                            <i class="fas fa-shopping-cart"></i>Pedidos
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('analytics', this)">
+                            <i class="fas fa-chart-line"></i>Análisis
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="showSection('settings', this)">
+                            <i class="fas fa-cog"></i>Configuración
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="logout-btn">
+                <button class="btn btn-light w-100" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1>Dashboard</h1>
+
+                <div class="d-flex align-items-center">
+                    <span class="me-3">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <span id="adminUser">Admin</span>
+                    </span>
+
+                    <a href="../index.html" class="btn btn-outline-success">
+                        <i class="fas fa-store me-2"></i>Ver Tienda
+                    </a>
+                </div>
+            </div>
+
+            <!-- DASHBOARD SECTION -->
+            <div id="dashboardSection" class="content-section">
+
+                <div class="row mb-4">
+                    <div class="col-md-3 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-success text-white">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <h3 id="totalProducts">0</h3>
+                            <p class="text-muted">Total Productos</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-info text-white">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <h3 id="totalOrders">0</h3>
+                            <p class="text-muted">Total Pedidos</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-warning text-white">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <h3 id="totalRevenue">$0</h3>
+                            <p class="text-muted">Ingresos Totales</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <div class="stats-card">
+                            <div class="stats-icon bg-primary text-white">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 id="totalCustomers">0</h3>
+                            <p class="text-muted">Clientes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity + Popular Products -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="product-table">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Actividad Reciente</th>
+                                            <th>Producto</th>
+                                            <th>Acción</th>
+                                            <th>Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recentActivity"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="product-table">
+                            <h5 class="p-3 mb-0">Productos Populares</h5>
+                            <div class="p-3">
+                                <div id="popularProducts"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PRODUCTS SECTION -->
+            <div id="productsSection" class="content-section" style="display: none;">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Gestión de Productos</h2>
+                    <button class="btn btn-success" onclick="openProductModal()">
+                        <i class="fas fa-plus me-2"></i>Añadir Producto
+                    </button>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-control" id="productSearch" placeholder="Buscar productos...">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select class="form-select" id="categoryFilter">
+                            <option value="">Todas las categorías</option>
+                            <option value="camisetas">Camisetas</option>
+                            <option value="sudaderas">Sudaderas</option>
+                            <option value="pantalones">Pantalones</option>
+                            <option value="accesorios">Accesorios</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select class="form-select" id="statusFilter">
+                            <option value="">Todos los estados</option>
+                            <option value="active">Activo</option>
+                            <option value="inactive">Inactivo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="product-table">
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Imagen</th>
+                                    <th>Nombre</th>
+                                    <th>Categoría</th>
+                                    <th>Precio</th>
+                                    <th>Stock</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FUTURE SECTIONS (Orders, Analytics, Settings) -->
+            <div id="ordersSection" class="content-section" style="display:none;">
+                <h2>Pedidos</h2>
+                <p class="text-muted">Módulo en desarrollo</p>
+            </div>
+
+            <div id="analyticsSection" class="content-section" style="display:none;">
+                <h2>Análisis</h2>
+                <p class="text-muted">Módulo en desarrollo</p>
+            </div>
+
+            <div id="settingsSection" class="content-section" style="display:none;">
+                <h2>Configuración</h2>
+                <p class="text-muted">Módulo en desarrollo</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalTitle">
+                        <i class="fas fa-box me-2"></i>Añadir Producto
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="productForm">
+                        <input type="hidden" id="productId">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productName" class="form-label">Nombre del Producto</label>
+                                <input type="text" class="form-control" id="productName" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="productCategory" class="form-label">Categoría</label>
+                                <select class="form-select" id="productCategory" required>
+                                    <option value="">Seleccionar categoría</option>
+                                    <option value="camisetas">Camisetas</option>
+                                    <option value="sudaderas">Sudaderas</option>
+                                    <option value="pantalones">Pantalones</option>
+                                    <option value="accesorios">Accesorios</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productPrice" class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="productPrice" step="0.01" required>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="productStock" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="productStock" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="productImage" class="form-label">Imagen del Producto</label>
+                                <input type="file" class="form-control" id="productImage" accept="image/*">
+                                <div class="form-text">Selecciona una imagen desde tu ordenador (JPG, PNG, GIF)</div>
+                                <div id="imagePreview" class="mt-2"></div>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label for="productStatus" class="form-label">Estado</label>
+                                <select class="form-select" id="productStatus">
+                                    <option value="active">Activo</option>
+                                    <option value="inactive">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-success" onclick="saveProduct()">
+                        <i class="fas fa-save me-2"></i>Guardar Producto
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dashboard.js"></script>
+
+</body>
+</html>
